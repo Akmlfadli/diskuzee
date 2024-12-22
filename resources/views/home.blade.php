@@ -39,11 +39,15 @@
             <!-- List group to display trending posts -->
             <div class="list-group">
                 @foreach ($trending as $trendings)
+                @if ($trendings->posts != "")
                     <a href="/posts/topic/{{ $trendings->uuid }}" class="list-group-item list-group-item-action list-group-item-light shadow-sm rounded-lg mb-3 hover-effect">
                         <i class="fas fa-fire text-danger me-3"></i> 
-                        {{ $trendings->posts }} 
+                         {{ $trendings->posts }} - 
+                         Post by {{ $trendings->postauthor }}
                         <span class="badge bg-info ms-3">{{ $trendings->mostcomments }} Comments</span>
                     </a>
+                @else
+                @endif
                 @endforeach
             </div>
         </div>

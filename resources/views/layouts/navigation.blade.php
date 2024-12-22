@@ -107,8 +107,10 @@
                 <x-responsive-nav-link href="/posting">
                     {{ __('Posting') }}
                 </x-responsive-nav-link>
+                @if (Auth::user()->role == "admin")
                 <x-responsive-nav-link href="/administrator">
                     {{ __('Administrator')}}
+                @endif
                 </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

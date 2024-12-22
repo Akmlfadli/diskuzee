@@ -13,9 +13,9 @@ class AdminController extends Controller
     
         // Fetch top 3 trending posts based on the number of comments
         $trending = DB::select("
-        SELECT title AS posts, uuid, COUNT(title) AS mostcomments 
+        SELECT title AS posts, uuid, postauthor, COUNT(title) AS mostcomments 
         FROM comments 
-        GROUP BY title, uuid
+        GROUP BY title, uuid, postauthor
         ORDER BY mostcomments DESC 
         LIMIT 3
     ");
