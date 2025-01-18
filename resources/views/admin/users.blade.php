@@ -141,7 +141,7 @@
                                         <p><strong>Description:</strong> {{ $report->deskripsi }}</p>
                                         <p><strong>Reason:</strong> {{ $report->alasan }}</p>
                                         <a href="/posts/topic/{{ $report->uuid }}" class="btn btn-primary btn-sm">View Post</a>
-                                        <button class="btn btn-danger btn-sm" onclick="window.location.href = '/posts/delete?uuid={{ $report->uuid }}'">DELETE</button>
+                                        <button class="btn btn-danger btn-sm" onclick="window.location.href = '/posts/delete?uuid={{ $report->uuid }}&image1={{ $report->image1 }}&image2={{ $report->image2 }}&image3={{ $report->image3 }}'">DELETE</button>
                                     </div>
                                 </div>
                             </div>

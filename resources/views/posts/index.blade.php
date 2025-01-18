@@ -71,17 +71,17 @@
                         <small>{{ $comments->author }}</small>
 
                         @if ($comments->author != Auth::user()->name && $posts->author == Auth::user()->name && $posts->answer == "unsolved" && $posts->typepost != "discussion")
-                            <button class="btn btn-success ms-3" onclick="window.location.href = '/solvedproblem/?uuidreply={{ $comments->uuidreply }}&uuid={{ $posts->uuid }}&name={{ $comments->author }}&profile={{ $comments->profile_author }}'">Correct</button>
+                            <button class="btn btn-success ms-3" onclick="window.location.href = '/solvedproblem/?uuidcomment={{ $comments->uuidcomment }}&uuid={{ $posts->uuid }}&name={{ $comments->author }}&profile={{ $comments->profile_author }}'">Correct</button>
                         @endif
 
                         <!-- Admin and Author Permissions -->
                         @if (Auth::user()->role == "admin")
                             <div class="ms-auto">
-                                <button class="btn btn-danger" onclick="window.location.href = '/deletecomment?uuid={{ $comments->uuid }}&uuidreply={{ $comments->uuidreply }}'">Delete</button>
+                                <button class="btn btn-danger" onclick="window.location.href = '/deletecomment?uuid={{ $comments->uuid }}&uuidcomment={{ $comments->uuidcomment }}'">Delete</button>
                             </div>
                         @elseif (Auth::user()->name == $comments->author && $posts->answer != "solved")
                             <div class="ms-auto">
-                                <button class="btn btn-danger" onclick="window.location.href = '/deletecomment?uuid={{ $comments->uuid }}&uuidreply={{ $comments->uuidreply }}'">Delete</button>
+                                <button class="btn btn-danger" onclick="window.location.href = '/deletecomment?uuid={{ $comments->uuid }}&uuidcomment={{ $comments->uuidcomment }}'">Delete</button>
                             </div>
                         @endif
                     </div>
@@ -95,7 +95,7 @@
                                 <div class="mb-3">
                                     <label for="replyText" class="form-label">Reply</label>
                                     <input type="hidden" name="idpost" value="{{ $comments->uuid }}" />
-                                    <input type="hidden" name="id" value="{{ $comments->uuidreply }}" />
+                                    <input type="hidden" name="id" value="{{ $comments->uuidcomment }}" />
                                     <textarea class="form-control" id="replyText" rows="3" name="comments"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -105,7 +105,7 @@
 
                     <!-- Loop through Replies -->
                     @foreach ($reply as $replying)
-                        @if ($replying->uuid == $comments->uuidreply)
+                        @if ($replying->uuidcomment == $comments->uuidcomment)
                             <div class="reply bg-light p-3 mt-2 rounded">
                                 <!-- Solved State for Reply -->
                                 @if ($posts->answer == "solved" && $replying->solving == "correct")
@@ -116,17 +116,17 @@
                                     <small>{{ $replying->author }}</small>
 
                                     @if ($replying->author != Auth::user()->name && $posts->author == Auth::user()->name && $posts->answer == "unsolved" && $posts->typepost != "discussion")
-                                        <button class="btn btn-success ms-3" onclick="window.location.href = '/solvedproblem?uuidreply={{ $replying->uuidreply }}&uuid={{ $posts->uuid }}&name={{ $comments->author }}&profile={{ $comments->profile_author }}'">Correct</button>
+                                        <button class="btn btn-success ms-3" onclick="window.location.href = '/solvedproblem?uuidreply={{ $replying->uuidreply }}&uuid={{ $posts->uuid }}&name={{ $replying->author }}&profile={{ $replying->profile_author }}'">Correct</button>
                                     @endif
 
                                     <!-- Admin and Author Permissions for Reply -->
                                     @if (Auth::user()->role == "admin")
                                         <div class="ms-auto">
-                                            <button class="btn btn-danger" onclick="window.location.href = '/deletereply?uuid={{ $comments->uuid }}&uuidreply={{ $replying->uuidreply }}'">Delete</button>
+                                            <button class="btn btn-danger" onclick="window.location.href = '/deletereply?uuid={{ $replying->uuid }}&uuidreply={{ $replying->uuidreply }}'">Delete</button>
                                         </div>
                                     @elseif(Auth::user()->name == $replying->author && $posts->answer != "solved")
                                         <div class="ms-auto">
-                                            <button class="btn btn-danger" onclick="window.location.href = '/deletereply?uuid={{ $comments->uuid }}&uuidreply={{ $replying->uuidreply }}'">Delete</button>
+                                            <button class="btn btn-danger" onclick="window.location.href = '/deletereply?uuid={{ $replying->uuid }}&uuidreply={{ $replying->uuidreply }}'">Delete</button>
                                         </div>
                                     @endif
                                 </div>

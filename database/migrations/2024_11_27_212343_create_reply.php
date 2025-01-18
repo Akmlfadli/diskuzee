@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reply', function (Blueprint $table) {
             $table->string('uuid');
+            $table->string('uuidcomment');
             $table->string('uuidreply');
             $table->string('author');
             $table->string('profile_author');

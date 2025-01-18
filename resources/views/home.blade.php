@@ -76,7 +76,7 @@
                            <div style="display: flex; flex-wrap: wrap;">
                            <h1 style="font-size: 30px;"> {{ $content->title }} </h1>
                            </div>
-                            <a href="report?uuid={{ $content->uuid }}&name={{ $content->author }}&profile={{ $content->profile_author }}&title={{ $content->title }}&deskripsi={{ $content->deskripsi }}">Report</a>
+                            <a href="report?uuid={{ $content->uuid }}&name={{ $content->author }}&profile={{ $content->profile_author }}&title={{ $content->title }}&deskripsi={{ $content->deskripsi }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}">Report</a>
                            </div>
                            <div class="click" onclick="window.location.href = '/posts/topic/{{ $content->uuid }}'">
                            <div style="display: flex; justify-content: start;">
@@ -92,13 +92,13 @@
                         @if ($content->typepost == "discussion")
                         @if (Auth::user()->role == "admin" or Auth::user()->name == $content->author)
                         <div style="display: flex; justify-content: space-between;">
-                            <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}'">Delete</button>
+                            <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}'">Delete</button>  
                         </div>
                         @endif
                         @else
                         @if (Auth::user()->role == "admin")
                         <div style="display: flex; justify-content: space-between;">
-                        <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}'">Delete</button>
+                           <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}'">Delete</button>
                         @if ($content->answer == "solved")
                         <button class="btn" style="background-color: lightblue;">{{ $content->answer }}</button>
                         @else
@@ -108,7 +108,7 @@
                         @else
                         @if (Auth::user()->name == $content->author)
                         <div style="display: flex; justify-content: space-between;">
-                        <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}'">Delete</button>
+                            <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}'">Delete</button>  
                         <div>
                           @if($content->answer == "solved")
                           <button class="btn" style="background-color: lightblue;">{{ $content->answer }}</button>
@@ -138,7 +138,8 @@
                         @foreach ($contents as $content)
                         <div style="height: max-content; width: 100%; margin: 20px; background-color: #89a8e3f5; padding: 20px;">
                            <div class="title" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-                           <h1 style="font-size: 30px;"> {{ $content->title }} </h1>     <a href="report?uuid={{ $content->uuid }}&name={{ $content->author }}&profile={{ $content->profile_author }}&title={{ $content->title }}&deskripsi={{ $content->deskripsi }}">Report</a>
+                           <h1 style="font-size: 30px;"> {{ $content->title }} </h1>
+                            <a href="report?uuid={{ $content->uuid }}&name={{ $content->author }}&profile={{ $content->profile_author }}&title={{ $content->title }}&deskripsi={{ $content->deskripsi }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}">Report</a>
                            </div>
                            <div class="click" onclick="window.location.href = '/posts/topic/{{ $content->uuid }}'">
                            <div style="display: flex; justify-content: start;">
@@ -154,13 +155,13 @@
                         @if ($content->typepost == "discussion")
                         @if (Auth::user()->role == "admin" or Auth::user()->name == $content->author)
                         <div style="display: flex; justify-content: space-between;">
-                            <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}'">Delete</button>
+                           <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}'">Delete</button>
                         </div>
                         @endif
                         @else
                         @if (Auth::user()->role == "admin")
                         <div style="display: flex; justify-content: space-between;">
-                        <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}'">Delete</button>
+                            <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}'">Delete</button>  
                         <div>
                             @if($content->answer == "solved")
                             <button class="btn" style="background-color: lightblue;">{{ $content->answer }}</button>
@@ -172,7 +173,7 @@
                         @else
                         @if (Auth::user()->name == $content->author)
                         <div style="display: flex; justify-content: space-between;">
-                        <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}'">Delete</button>
+                            <button class="btn" style="background-color: red" onclick="window.location.href = '/delete/posts?query={{ $content->uuid }}&image1={{ $content->image1 }}&image2={{ $content->image2 }}&image3={{ $content->image3 }}'">Delete</button>  
                         <div>
                             @if($content->answer == "solved")
                             <button class="btn" style="background-color: lightblue;">{{ $content->answer }}</button>

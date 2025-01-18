@@ -57,6 +57,10 @@
                     <input type="text" class="form-control" name="profile" value="{{ $profile }}">
                     <input type="text" class="form-control" name="title" value="{{ $title }}">
                     <input type="text" class="form-control" name="deskripsi" value="{{ $deskripsi }}">
+                    <input type="text" class="form-control" name="image1" value="{{ $image1 }}">
+                    <input type="text" class="form-control" name="image2" value="{{ $image2 }}">
+                    <input type="text" class="form-control" name="image3" value="{{ $image3 }}">
+
                 </div>
 
                 <!-- Reason for Report -->

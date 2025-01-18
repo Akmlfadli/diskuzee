@@ -15,7 +15,7 @@ class CommentsController extends Controller
         $postsauthor = $request->query('postauthor');
         $comment = $request->query('comments');
         $title = $request->query('title');
-        $current_time = Carbon::now('Asia/Jakarta');
+        $current_time = Carbon::today()->toDateString();
         
         if (!$comment or !$title){
             return redirect()->to('/posts/topic/' . $uuid);
@@ -25,29 +25,30 @@ class CommentsController extends Controller
         $authorbypass = DB::table('comments')->where('postauthor', Auth::user()->name)->where('uuid', $uuid)->count();
 
         if ($authorbypass > 0){
-        $uuidreply = Str::uuid()->toString();
-        $result = DB::insert("INSERT INTO comments(uuid, postauthor, uuidreply, author, profile_author, comment, comment_date) VALUES (?, ?, ?, ?, ?, ?, ?)", [$uuid, $postsauthor, $uuidreply, Auth::user()->name, Auth::user()->profile_picture, $comment, $current_time]);
+        $uuidcomment = Str::uuid()->toString();
+        $result = DB::insert("INSERT INTO comments(uuid, postauthor, uuidcomment, author, profile_author, comment, comment_date) VALUES (?, ?, ?, ?, ?, ?, ?)", [$uuid, $postsauthor, $uuidcomment, Auth::user()->name, Auth::user()->profile_picture, $comment, $current_time]);
         return redirect()->to('/posts/topic/' . $uuid);
         
         }
-        $uuidreply = Str::uuid()->toString();
-        $results = DB::insert("INSERT INTO comments(uuid, postauthor, uuidreply, author, profile_author, title, comment, comment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [$uuid, $postsauthor, $uuidreply, Auth::user()->name, Auth::user()->profile_picture, $title, $comment, $current_time]);
+        $uuidcomment = Str::uuid()->toString();
+        $results = DB::insert("INSERT INTO comments(uuid, postauthor, uuidcomment, author, profile_author, title, comment, comment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [$uuid, $postsauthor, $uuidcomment, Auth::user()->name, Auth::user()->profile_picture, $title, $comment, $current_time]);
         if ($results){
             return redirect()->to('/posts/topic/' . $uuid);
         }
     }
 
     public function storereply(Request $request){
-        $current_time = Carbon::now('Asia/Jakarta');
+        $current_time = Carbon::today()->toDateString();
         $back = $request->query('idpost');
-        $uuid = $request->query('id');
+        $uuidcomment = $request->query('id');
+
         $reply = $request->query('comments');
 
         if (!$reply){
             return redirect()->to('/posts/topic/' . $uuid);
         }
         $uuidreply = Str::uuid()->toString();
-        $results = DB::insert("INSERT INTO reply(uuid, uuidreply, author, profile_author, comment, reply_date) VALUES (?, ?, ?, ?, ?, ?)", [$uuid, $uuidreply, Auth::user()->name, Auth::user()->profile_picture, $reply, $current_time]);
+        $results = DB::insert("INSERT INTO reply(uuid, uuidcomment, uuidreply, author, profile_author, comment, reply_date) VALUES (?, ?, ?, ?, ?, ?, ?)", [$back, $uuidcomment, $uuidreply, Auth::user()->name, Auth::user()->profile_picture, $reply, $current_time]);
 
         if ($results){
             return redirect()->to("/posts/topic/" . $back);
@@ -56,10 +57,10 @@ class CommentsController extends Controller
 
     public function deletecomment(Request $request){
         $uuid = $request->query('uuid');
-        $uuidreply = $request->query('uuidreply');
+        $uuidcomment = $request->query('uuidcomment');
 
-        $results = DB::table('comments')->where('uuidreply', $uuidreply)->delete();
-        DB::table('reply')->where('uuid', $uuidreply)->delete();
+        $results = DB::table('comments')->where('uuidcomment', $uuidcomment)->delete();
+        DB::table('reply')->where('uuidcomment', $uuidcomment)->delete();
 
         return redirect()->to('/posts/topic/' . $uuid);
     }

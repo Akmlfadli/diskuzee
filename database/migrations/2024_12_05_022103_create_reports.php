@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('profile');
             $table->string('title');
             $table->string('deskripsi');
-            $table->string('alasan');
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('alasan')->nullable();
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,7 @@ class PostController extends Controller
 
         }
 
-        $current_time = Carbon::now('Asia/Jakarta');
+        $current_time = Carbon::today()->toDateString();
 
         $results = DB::insert("UPDATE posts SET title = ?,  author = ?, profile_author = ?,  deskripsi = ?, upload_date = ? WHERE uuid = ?", [$title, Auth::user()->name, Auth::user()->profile_picture, $deskripsi, $current_time, $uuid]);
          
@@ -64,9 +65,21 @@ class PostController extends Controller
     }
 
     public function delete(Request $request){
-        $input = $request->query('query');  
-        $results = DB::table("posts")->where("uuid", $input)->delete();
-        $results = DB::table("comments")->where("uuid", $input)->delete();
-            return redirect()->to('/home');
+        $input = $request->query('query');
+        $image1 = $request->query('image1');
+        $image2 = $request->query('image2');
+        $image3 = $request->query('image3');
+
+        // $results = DB::table("posts")->where("uuid", $input)->delete();
+        // $results = DB::table("comments")->where("uuid", $input)->delete();
+        // $results = DB::table("reports")->where("uuid", $input)->delete();
+        DB::table('comments')->where('uuid', $input)->delete();
+        DB::table('reply')->where('uuid', $input)->delete();
+        DB::table('posts')->where('uuid', $input)->delete();
+        DB::table('reports')->where('uuid', $input)->delete();
+        File::delete(public_path($image1));
+        File::delete(public_path($image2));
+        File::delete(public_path($image3));
+        return redirect()->to('/home');
     }
     }

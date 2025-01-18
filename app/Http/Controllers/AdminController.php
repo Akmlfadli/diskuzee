@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -46,8 +47,11 @@ class AdminController extends Controller
         $profile = $request->query('profile');
         $title = $request->query('title');
         $deskripsi = $request->query('deskripsi');
+        $image1 = $request->query('image1');
+        $image2 = $request->query('image2');
+        $image3 = $request->query('image3');
 
-        return view('deleteposts', ['uuid'=>$uuid, 'name'=>$name, 'profile'=>$profile, 'title'=>$title, 'deskripsi'=>$deskripsi]);
+        return view('deleteposts', ['uuid'=>$uuid, 'name'=>$name, 'profile'=>$profile, 'title'=>$title, 'deskripsi'=>$deskripsi, 'image1'=>$image1, 'image2'=>$image2, 'image3'=>$image3]);
     }
 
 
@@ -57,9 +61,12 @@ class AdminController extends Controller
         $profile = $request->query('profile');
         $title = $request->query('title');
         $deskripsi = $request->query('deskripsi');
+        $image1 = $request->query('image1');
+        $image2 = $request->query('image2');
+        $image3 = $request->query('image3');
         $alasan = $request->query('alasan');
 
-        $result = DB::insert("INSERT INTO reports (uuid, name, profile, title, deskripsi, alasan) VALUES (?, ?, ?, ?, ?, ?)", [$uuid, $name, $profile, $title, $deskripsi, $alasan]);
+        $result = DB::insert("INSERT INTO reports (uuid, name, profile, title, deskripsi, image1, image2, image3, alasan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$uuid, $name, $profile, $title, $deskripsi, $image1, $image2, $image3, $alasan]);
         if($result){
             return redirect()->to('/home');
         }
@@ -74,12 +81,18 @@ class AdminController extends Controller
 
     public function postsdelete(Request $request){
         $uuid = $request->query('uuid');
+        $image1 = $request->query('image1');
+        $image2 = $request->query('image2');
+        $image3 = $request->query('image3');
 
         DB::table('comments')->where('uuid', $uuid)->delete();
-        DB::table('reply')->where('uuidreply', $uuid)->delete();
+        DB::table('reply')->where('uuid', $uuid)->delete();
         DB::table('posts')->where('uuid', $uuid)->delete();
         DB::table('reports')->where('uuid', $uuid)->delete();
-
+        File::delete(public_path($image1));
+        File::delete(public_path($image2));
+        File::delete(public_path($image3));
+        
         return redirect()->to('/administrator');
     }
 }
