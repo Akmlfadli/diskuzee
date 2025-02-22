@@ -29,19 +29,27 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        DB::table('comments')->where('author', Auth::user()->name)->delete();
-        DB::table('reply')->where('author', Auth::user()->name)->delete();
-        DB::table('posts')->where('author', Auth::user()->name)->delete();
         
         if ($request->hasFile('profile')) {
             $uuid = Str::uuid()->toString();
             $newImagePath = $uuid  .  " - " .  $request->file('profile')->getClientOriginalName();
+            DB::update("UPDATE comments SET author = ?,  profile_author = ? WHERE author = ?", [$request->request->get('name'), "/images/profile/" . $newImagePath, Auth::user()->name]);
+            DB::update("UPDATE posts SET author = ?,  profile_author = ? WHERE author = ?", [$request->request->get('name'), "/images/profile/" . $newImagePath, Auth::user()->name]);
+            DB::update("UPDATE reply SET author = ?,  profile_author = ? WHERE author = ?", [$request->request->get('name'), "/images/profile/" . $newImagePath, Auth::user()->name]);
             $request->profile->move(public_path('images/profile'), $newImagePath);
             if (Auth::user()->profile_picture != '/images/profile/default.jpeg'){
                File::delete(public_path(Auth::user()->profile_picture));
             }
             DB::update("UPDATE users SET profile_picture = ? WHERE id = ?", ["/images/profile/" . $newImagePath, Auth::user()->id]);
-        }  
+        }
+        else {
+            DB::update("UPDATE comments SET author = ? WHERE author = ?", [$request->request->get('name'), Auth::user()->name]);
+            DB::update("UPDATE posts SET author = ? WHERE author = ?", [$request->request->get('name'), Auth::user()->name]);
+            DB::update("UPDATE reply SET author = ? WHERE author = ?", [$request->request->get('name'), Auth::user()->name]);
+            // DB::table('comments')->where('author', Auth::user()->name)->delete();
+            DB::table('reply')->where('author', Auth::user()->name)->delete();
+            // DB::table('posts')->where('author', Auth::user()->name)->delete();
+        }
 
         $request->user()->fill($request->validated());
 
